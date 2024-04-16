@@ -4,6 +4,8 @@ from .car import Car
 from engine import SternmanEngine
 # Import the SpindlerBattery class from the battery.model package.
 from battery.model import SpindlerBattery
+from tire.tire import CarriganTire, OctoprimeTire
+
 
 # Define the Palindrome class which inherits from the Car class.
 class Palindrome(Car):
@@ -15,8 +17,9 @@ class Palindrome(Car):
         # Initialize the battery attribute with a SpindlerBattery instance,
         # passing the last_service_date parameter to its constructor.
         self.battery = SpindlerBattery(last_service_date)
+        self.tires = [CarriganTire(), OctoprimeTire()]  
 
     # Define the needs_service method that returns True if either the engine or the battery needs service.
     def needs_service(self) -> bool:
         # Call needs_service on both the engine and battery. Return True if any call returns True.
-        return self.engine.needs_service() or self.battery.needs_service()
+        return self.engine.needs_service() or self.battery.needs_service() or self.engine.needs_service()

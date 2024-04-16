@@ -4,6 +4,7 @@ from .car import Car
 from engine import WilloughbyEngine
 # Import the specific battery type Rorschach uses.
 from battery.model import NubbinBattery
+from tire.tire import CarriganTire, OctoprimeTire
 
 # Define the class Rorschach, which is a specific model of Car.
 class Rorschach(Car):
@@ -15,10 +16,11 @@ class Rorschach(Car):
         # Initialize the battery attribute with a NubbinBattery object,
         # passing the last service date relevant for determining service need.
         self.battery = NubbinBattery(last_service_date)
+        self.tires = [CarriganTire(), OctoprimeTire()] 
 
     # Method to determine if the car needs service by checking if either
     # the engine or the battery needs service.
     def needs_service(self) -> bool:
         # Calls needs_service on both the engine and the battery.
         # Returns True if either component needs service, otherwise False.
-        return self.engine.needs_service() or self.battery.needs_service()
+        return self.engine.needs_service() or self.battery.needs_service() or self.engine.needs_service()

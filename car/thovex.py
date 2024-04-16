@@ -4,6 +4,7 @@ from .car import Car
 # Import the specific Engine and Battery models that Thovex uses.
 from engine import CapuletEngine
 from battery.model import NubbinBattery
+from tire.tire import CarriganTire, OctoprimeTire
 
 # Define the Thovex class, which is a specific model of Car.
 class Thovex(Car):
@@ -16,8 +17,9 @@ class Thovex(Car):
         # Initialize the battery attribute with a NubbinBattery instance.
         # The NubbinBattery requires the last service date to determine if it needs service.
         self.battery = NubbinBattery(last_service_date)
+        self.tires = [CarriganTire(), OctoprimeTire()]
 
     # Define a method to determine if the Thovex car needs service.
     def needs_service(self) -> bool:
         # Check if either the engine or the battery needs service and return True if so.
-        return self.engine.needs_service() or self.battery.needs_service()
+        return self.engine.needs_service() or self.battery.needs_service() or self.engine.needs_service()

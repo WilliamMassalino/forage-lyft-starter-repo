@@ -4,6 +4,7 @@ from .car import Car
 from engine import WilloughbyEngine
 # Import the SpindlerBattery class from the battery.model package.
 from battery.model import SpindlerBattery
+from tire.tire import CarriganTire, OctoprimeTire
 
 # Define the Glissade class, which inherits from the Car class.
 class Glissade(Car):
@@ -13,8 +14,9 @@ class Glissade(Car):
         self.engine = WilloughbyEngine(last_service_mileage, current_mileage)
         # Initialize the battery attribute with a SpindlerBattery object, passing in the last service date.
         self.battery = SpindlerBattery(last_service_date)
+        self.tires = [CarriganTire(), OctoprimeTire()]  
 
     # Define a method to check if the car needs servicing.
     def needs_service(self) -> bool:
         # Return True if either the engine or battery requires service.
-        return self.engine.needs_service() or self.battery.needs_service()
+        return self.engine.needs_service() or self.battery.needs_service() or self.engine.needs_service()

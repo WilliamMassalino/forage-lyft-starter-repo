@@ -12,7 +12,7 @@ class SpindlerBattery(Battery):
 
     # Method to determine if the battery needs service
     def needs_service(self) -> bool:
-        # Increment the last service year by 2 and compare it to today's date
+        # Increment the last service year by 3 (originally it was two) and compare it to today's date
         # If the date after adding two years is earlier than today, return True (needs service)
         # Otherwise, return False (does not need service)
-        return self.last_service_date.replace(year=self.last_service_date.year + 2) < datetime.now().date()
+        return self.last_service_date.replace(year=self.last_service_date.year + 3) < datetime.now().date()

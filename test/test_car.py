@@ -6,6 +6,10 @@ from engine.model.willoughby_engine import WilloughbyEngine
 # Import the battery classes from the battery module.
 from battery.model.battery import Battery
 from unittest.mock import patch
+# Import the tire classes from the tire module.
+from tire.carrigan_tire import CarriganTire
+from tire.octoprime_tire import OctoprimeTire
+
 
 class TestCapuletEngine(unittest.TestCase):
     def test_engine_should_be_serviced(self):
@@ -57,6 +61,28 @@ class TestBattery(unittest.TestCase):
         battery = InstantiableBattery()
         self.assertIsInstance(battery, Battery)
         self.assertTrue(battery.needs_service())
+
+class TestCarriganTires(unittest.TestCase):
+    def test_needs_service_true(self):
+        tire_wear_array = [0.1, 0.4, 0.9, 0.2]
+        tire = CarriganTire(tire_wear_array)
+        self.assertTrue(tire.needs_service())
+
+    def test_needs_service_false(self):
+        tire_wear_array = [0.1, 0.4, 0.2, 0.2]
+        tire = CarriganTire(tire_wear_array)
+        self.assertFalse(tire.needs_service())
+
+class TestOctoprimeTires(unittest.TestCase):
+    def test_needs_service_true(self):
+        tire_wear_array = [0.8, 0.8, 0.8, 0.8]
+        tire = OctoprimeTire(tire_wear_array)
+        self.assertTrue(tire.needs_service())
+
+    def test_needs_service_false(self):
+        tire_wear_array = [0.5, 0.5, 0.5, 0.5]
+        tire = OctoprimeTire(tire_wear_array)
+        self.assertFalse(tire.needs_service())
 
 if __name__ == '__main__':
     unittest.main()
