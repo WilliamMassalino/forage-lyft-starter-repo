@@ -1,7 +1,7 @@
 # Import the base Car class which Rorschach will extend.
 from .car import Car
 # Import the specific engine type Rorschach uses.
-from engine.model import WilloughbyEngine
+from engine import WilloughbyEngine
 # Import the specific battery type Rorschach uses.
 from battery.model import NubbinBattery
 

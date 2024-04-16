@@ -1,7 +1,7 @@
 # Import the Car class from the current package's car module.
 from .car import Car
 # Import the WilloughbyEngine class from the engine.model package.
-from engine.model import WilloughbyEngine
+from engine import WilloughbyEngine
 # Import the SpindlerBattery class from the battery.model package.
 from battery.model import SpindlerBattery
 

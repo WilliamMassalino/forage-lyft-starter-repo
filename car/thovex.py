@@ -2,7 +2,7 @@
 from .car import Car
 
 # Import the specific Engine and Battery models that Thovex uses.
-from engine.model import CapuletEngine
+from engine import CapuletEngine
 from battery.model import NubbinBattery
 
 # Define the Thovex class, which is a specific model of Car.

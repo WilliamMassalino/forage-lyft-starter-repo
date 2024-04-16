@@ -1,5 +1,5 @@
 # Import the abstract base class Engine from the engine module.
-from engine import Engine
+from engine.engine import Engine
 
 # Define a class SternmanEngine, which inherits from the Engine class.
 class SternmanEngine(Engine):

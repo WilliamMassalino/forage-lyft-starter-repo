@@ -1,7 +1,7 @@
 # Import the Car class from the car module within the current package.
 from .car import Car
 # Import the SternmanEngine class from the engine.model package.
-from engine.model import SternmanEngine
+from engine import SternmanEngine
 # Import the SpindlerBattery class from the battery.model package.
 from battery.model import SpindlerBattery
 

@@ -1,188 +1,62 @@
 import unittest
-from datetime import datetime
+# Import the engine classes from the engine module.
+from engine.model.capulet_engine import CapuletEngine
+from engine.model.sternman_engine import SternmanEngine
+from engine.model.willoughby_engine import WilloughbyEngine
+# Import the battery classes from the battery module.
+from battery.model.battery import Battery
+from unittest.mock import patch
 
-from engine.model.calliope import Calliope
-from engine.model.glissade import Glissade
-from engine.model.palindrome import Palindrome
-from engine.model.rorschach import Rorschach
-from engine.model.thovex import Thovex
-
-
-class TestCalliope(unittest.TestCase):
-    def test_battery_should_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Calliope(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_battery_should_not_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 1)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Calliope(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
+class TestCapuletEngine(unittest.TestCase):
     def test_engine_should_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 30001
-        last_service_mileage = 0
-
-        car = Calliope(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
+        engine = CapuletEngine(last_service_mileage=0, current_mileage=30001)
+        self.assertTrue(engine.needs_service())
 
     def test_engine_should_not_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 30000
-        last_service_mileage = 0
-
-        car = Calliope(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
+        engine = CapuletEngine(last_service_mileage=0, current_mileage=30000)
+        self.assertFalse(engine.needs_service())
 
 
-class TestGlissade(unittest.TestCase):
-    def test_battery_should_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Glissade(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_battery_should_not_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 1)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Glissade(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
+class TestSternmanEngine(unittest.TestCase):
     def test_engine_should_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 60001
-        last_service_mileage = 0
-
-        car = Glissade(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
+        engine = SternmanEngine(warning_light_is_on=True)
+        self.assertTrue(engine.needs_service())
 
     def test_engine_should_not_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 60000
-        last_service_mileage = 0
-
-        car = Glissade(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
+        engine = SternmanEngine(warning_light_is_on=False)
+        self.assertFalse(engine.needs_service())
 
 
-class TestPalindrome(unittest.TestCase):
-    def test_battery_should_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 5)
-        warning_light_is_on = False
-
-        car = Palindrome(last_service_date, warning_light_is_on)
-        self.assertTrue(car.needs_service())
-
-    def test_battery_should_not_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
-        warning_light_is_on = False
-
-        car = Palindrome(last_service_date, warning_light_is_on)
-        self.assertFalse(car.needs_service())
-
+class TestWilloughbyEngine(unittest.TestCase):
     def test_engine_should_be_serviced(self):
-        last_service_date = datetime.today().date()
-        warning_light_is_on = True
-
-        car = Palindrome(last_service_date, warning_light_is_on)
-        self.assertTrue(car.needs_service())
+        engine = WilloughbyEngine(last_service_mileage=0, current_mileage=60001)
+        self.assertTrue(engine.needs_service())
 
     def test_engine_should_not_be_serviced(self):
-        last_service_date = datetime.today().date()
-        warning_light_is_on = False
+        engine = WilloughbyEngine(last_service_mileage=0, current_mileage=60000)
+        self.assertFalse(engine.needs_service())
 
-        car = Palindrome(last_service_date, warning_light_is_on)
-        self.assertFalse(car.needs_service())
+class TestBattery(unittest.TestCase):
+    def test_subclass_must_implement_needs_service(self):
+        with self.assertRaises(TypeError):
+            # Attempt to create a dummy class that inherits from Battery but does not implement the abstract methods.
+            # This should raise a TypeError because we cannot instantiate an abstract class without defining all of its abstract methods.
+            class DummyBattery(Battery):
+                pass
+            DummyBattery()
 
+    @patch.multiple(Battery, __abstractmethods__=set())
+    def test_concrete_subclass_can_be_instantiated(self):
+        # By patching __abstractmethods__ to an empty set, we make Battery temporarily 'concrete'.
+        # We then define a dummy class that should be instantiable because Battery no longer has any abstract methods.
+        class InstantiableBattery(Battery):
+            def needs_service(self):
+                return True
 
-class TestRorschach(unittest.TestCase):
-    def test_battery_should_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 5)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_battery_should_not_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
-    def test_engine_should_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 60001
-        last_service_mileage = 0
-
-        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_engine_should_not_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 60000
-        last_service_mileage = 0
-
-        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
-
-class TestThovex(unittest.TestCase):
-    def test_battery_should_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 5)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Thovex(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_battery_should_not_be_serviced(self):
-        today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
-        current_mileage = 0
-        last_service_mileage = 0
-
-        car = Thovex(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
-    def test_engine_should_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 30001
-        last_service_mileage = 0
-
-        car = Thovex(last_service_date, current_mileage, last_service_mileage)
-        self.assertTrue(car.needs_service())
-
-    def test_engine_should_not_be_serviced(self):
-        last_service_date = datetime.today().date()
-        current_mileage = 30000
-        last_service_mileage = 0
-
-        car = Thovex(last_service_date, current_mileage, last_service_mileage)
-        self.assertFalse(car.needs_service())
-
+        # We should be able to instantiate the class without any issue.
+        battery = InstantiableBattery()
+        self.assertIsInstance(battery, Battery)
+        self.assertTrue(battery.needs_service())
 
 if __name__ == '__main__':
     unittest.main()

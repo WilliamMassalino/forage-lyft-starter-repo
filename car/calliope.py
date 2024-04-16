@@ -1,7 +1,7 @@
 # Importing the base Car class to inherit from.
 from .car import Car
 # Importing the specific Engine and Battery types this car model uses.
-from engine.model import CapuletEngine
+from engine import CapuletEngine
 from battery.model import SpindlerBattery
 
 # Define the class Calliope, which is a specific type of Car.
